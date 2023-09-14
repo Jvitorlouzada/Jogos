@@ -1,39 +1,49 @@
 import random
+import os
 
 def jogar():
 
-    mensagem_abertura()
-    palavra_secreta = carregando_palavra()
+    jogar_novamente = True
 
-    letras_acertadas = ["_" for letra in palavra_secreta] # Adicionando _ para cada letra da palavra
+    while jogar_novamente:
+        mensagem_abertura()
+        palavra_secreta = carregando_palavra()
 
-    enforcou = False
-    acertou = False
-    erros = 0
+        letras_acertadas = ["_" for letra in palavra_secreta] # Adicionando _ para cada letra da palavra
 
-    print(letras_acertadas)
+        enforcou = False
+        acertou = False
+        erros = 0
 
-    while (not enforcou and not acertou): # Enquanto não enforcar e não acertar continua.
-
-        chute_minusculo = input("Tente adivinhar uma letra: ")
-        chute = chute_minusculo.upper()
-
-        if (chute in palavra_secreta):    
-            chute_correto(chute,palavra_secreta,letras_acertadas)
-        else:
-            erros = erros + 1
-            desenha_forca(erros)
-
-        enforcou = erros == 7 
-        acertou = "_" not in letras_acertadas
         print(letras_acertadas)
 
-    if (acertou):
-        imprime_mensagem_vencedor()
-    else:
-        imprime_mensagem_perdedor(palavra_secreta)
+        while (not enforcou and not acertou): # Enquanto não enforcar e não acertar continua.
 
-    print ("Fim do jogo!")
+            chute_minusculo = input("Tente adivinhar uma letra: ")
+            chute = chute_minusculo.upper()
+
+            if (chute in palavra_secreta):    
+                chute_correto(chute,palavra_secreta,letras_acertadas)
+            else:
+                erros = erros + 1
+                desenha_forca(erros)
+
+            enforcou = erros == 7 
+            acertou = "_" not in letras_acertadas
+            print(letras_acertadas)
+
+        if (acertou):
+            imprime_mensagem_vencedor()
+        else:
+            imprime_mensagem_perdedor(palavra_secreta)
+
+        print ("Fim do jogo!")
+        resposta = input("Deseja jogar novamente? (S para sim, qualquer tecla para sair): ")
+        if resposta == "s":
+            limpar_tela()
+            os.system('cls')
+        elif resposta.lower() != 's':
+            jogar_novamente = False
 
 def mensagem_abertura():
     print("#######################################################")
@@ -47,7 +57,7 @@ def carregando_palavra():
         "Abacate", "Abacaxi", "Açaí", "Acerola", "Ameixa", "Amora", "Atemoia", "Banana",
         "Caju", "Cambuci", "Carambola", "Cereja", "Coco", "Figo", "Framboesa", "Goiaba",
         "Jabuticaba", "Jaca", "Kiwi", "Laranja", "Maça", "Mamao", "Manga", "Melancia",
-        "Melao", "Mexerica", "Morango", "Pessego", "Pitaia", "Uva"
+        "Melao", "Mexerica", "Morango", "Pessego", "Pitaia", "Uva", "Graviola"
     ]
 
     fruta_aleatoria = random.choice(frutas) #gerando uma fruta aleatoria
@@ -145,6 +155,10 @@ def desenha_forca(erros):
         print(" |            ")
         print("_|___         ")
         print()
+
+def limpar_tela():
+    os.system('cls')
+
 
 if (__name__ == "__main__"):
     jogar()
