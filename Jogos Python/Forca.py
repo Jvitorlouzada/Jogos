@@ -15,25 +15,23 @@ def jogar():
 
     while (not enforcou and not acertou): # Enquanto não enforcar e não acertar continua.
 
-        chute = input("Tente adivinhar uma letra: ")
+        chute_minusculo = input("Tente adivinhar uma letra: ")
+        chute = chute_minusculo.upper()
 
-        index = 0
-
-        for letra in palavra_secreta:
-            if (chute.upper() == letra.upper()):
-                letras_acertadas[index] = letra #Quando acertar, vai guardar a letra na LISTA
-            index = index +1
+        if (chute in palavra_secreta):    
+            chute_correto(chute,palavra_secreta,letras_acertadas)
         else:
             erros = erros + 1
-        
-        enforcou = erros == len(palavra_secreta)   
+            desenha_forca(erros)
+
+        enforcou = erros == 7 
         acertou = "_" not in letras_acertadas
         print(letras_acertadas)
 
     if (acertou):
-        print("Parabéns você ganhou!")
+        imprime_mensagem_vencedor()
     else:
-        print("Você perdeu.")
+        imprime_mensagem_perdedor(palavra_secreta)
 
     print ("Fim do jogo!")
 
@@ -42,23 +40,111 @@ def mensagem_abertura():
     print("         Bem-vindo ao Jogo da forca\n")
     print("  Para ganhar, você precisa acertar a palavra")
     print("#######################################################\n")
+    print("            Dica: é uma fruta")
 
 def carregando_palavra():
-    arquivo = open("frutas.txt", "r") # Abrindo arquivo.txt onde estão as frutas
-    frutas = []
+    frutas = [
+        "Abacate", "Abacaxi", "Açaí", "Acerola", "Ameixa", "Amora", "Atemoia", "Banana",
+        "Caju", "Cambuci", "Carambola", "Cereja", "Coco", "Figo", "Framboesa", "Goiaba",
+        "Jabuticaba", "Jaca", "Kiwi", "Laranja", "Maça", "Mamao", "Manga", "Melancia",
+        "Melao", "Mexerica", "Morango", "Pessego", "Pitaia", "Uva"
+    ]
+
+    fruta_aleatoria = random.choice(frutas) #gerando uma fruta aleatoria
     
-    # Aqui verifica linha por linha do aquivo.txt, limpa os espaços e os codigos como \n e coloca essa nova linha limpa na lista FRUTAS
-    for linha in arquivo:  
-        linha = linha.strip()
-        frutas.append(linha)
-    arquivo.close()
-  
-    fruta_aleatoria = random.randrange(0, len(frutas)) #gerando uma fruta aleatoria
-    
-    palavra_secreta = frutas[fruta_aleatoria].upper()
+    palavra_secreta = fruta_aleatoria.upper()
     return palavra_secreta
 
+def chute_correto(chute,palavra_secreta,letras_acertadas):
+    index = 0
+    for letra in palavra_secreta:    
+        if (chute.upper() == letra.upper()):
+            letras_acertadas[index] = letra #Quando acertar, vai guardar a letra na LISTA
+        index = index +1
 
+def imprime_mensagem_vencedor():
+        print("Parabéns, você ganhou!")
+        print("       ___________      ")
+        print("      '._==_==_=_.'     ")
+        print("      .-\\:      /-.    ")
+        print("     | (|:.     |) |    ")
+        print("      '-|:.     |-'     ")
+        print("        \\::.    /      ")
+        print("         '::. .'        ")
+        print("           ) (          ")
+        print("         _.' '._        ")
+        print("        '-------'       ")
+
+def imprime_mensagem_perdedor(palavra_secreta):
+    print("Puxa, você foi enforcado!")
+    print("A palavra era {}".format(palavra_secreta))
+    print("    _______________         ")
+    print("   /               \       ")
+    print("  /                 \      ")
+    print("//                   \/\  ")
+    print("\|   XXXX     XXXX   | /   ")
+    print(" |   XXXX     XXXX   |/     ")
+    print(" |   XXX       XXX   |      ")
+    print(" |                   |      ")
+    print(" \__      XXX      __/     ")
+    print("   |\     XXX     /|       ")
+    print("   | |           | |        ")
+    print("   | I I I I I I I |        ")
+    print("   |  I I I I I I  |        ")
+    print("   \_             _/       ")
+    print("     \_         _/         ")
+    print("       \_______/           ")
+  
+
+def desenha_forca(erros):
+        print("  _______     ")
+        print(" |/      |    ")
+
+        if(erros == 1):
+            print(" |      (_)   ")
+            print(" |            ")
+            print(" |            ")
+            print(" |            ")
+
+        if(erros == 2):
+            print(" |      (_)   ")
+            print(" |      \     ")
+            print(" |            ")
+            print(" |            ")
+
+        if(erros == 3):
+            print(" |      (_)   ")
+            print(" |      \|    ")
+            print(" |            ")
+            print(" |            ")
+
+        if(erros == 4):
+            print(" |      (_)   ")
+            print(" |      \|/   ")
+            print(" |            ")
+            print(" |            ")
+
+        if(erros == 5):
+            print(" |      (_)   ")
+            print(" |      \|/   ")
+            print(" |       |    ")
+            print(" |            ")
+
+        if(erros == 6):
+            print(" |      (_)   ")
+            print(" |      \|/   ")
+            print(" |       |    ")
+            print(" |      /     ")
+
+        if (erros == 7):
+            print(" |      (_)   ")
+            print(" |      \|/   ")
+            print(" |       |    ")
+            print(" |      / \   ")
+
+        print(" |            ")
+        print("_|___         ")
+        print()
 
 if (__name__ == "__main__"):
     jogar()
